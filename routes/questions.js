@@ -62,8 +62,20 @@ router.get('/', function(req, res, next) {
     )
 });
 
+// Questions#destroy
+// PATH /questions/:id METHOD: delete
+router.delete('/:id', function (req, res, next) {
+  const {id} = req.params;
+
+  Question
+    .findById(id)
+    .then(question => question.destroy())
+    .then(() => res.redirect(`/questions`))
+    .catch(err => next(err));
+})
+
 // Questions#show
-// PATH /questions/:id METHOD: Get
+// PATH /questions/:id METHOD: get
 router.get('/:id', function(req, res, next) {
   const {id} = req.params;
 

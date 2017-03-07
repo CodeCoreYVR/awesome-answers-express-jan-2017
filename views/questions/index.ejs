@@ -11,6 +11,16 @@
         <a href="/questions/<%= id %>"><%= title %></a>
       </h3>
       <p><%= createdAt %></p>
+
+      <%# To create a delete button, we must make use of a form.
+      According to how we implement our method-override, we expect there
+      to be a _method param with our HTTP Verb. We use an hidden input fields
+      to set it. %>
+
+      <form action="/questions/<%= id %>" method="post">
+        <input type="hidden" name="_method" value="delete"/>
+        <input type="submit" value="Delete" />
+      </form>
     </li>
   <% }) %>
   </ul>
