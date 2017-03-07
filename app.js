@@ -5,6 +5,8 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
+const flash = require('connect-flash');
+const session = require('express-session');
 
 const index = require('./routes/index');
 const users = require('./routes/users');
@@ -48,7 +50,10 @@ app.use(methodOverride(function (req, res) {
   }
 }))
 
-app.use(cookieParser());
+app.use(cookieParser('awesome-answers-express'));
+app.use(session({cookie: {maxAge: 60000}}));
+app.use(flash());
+
 // 👇 will transpile our scss files into css files
 app.use(require('node-sass-middleware')({
   src: path.join(__dirname, 'public'),
@@ -57,6 +62,19 @@ app.use(require('node-sass-middleware')({
   sourceMap: true
 }));
 app.use(express.static(path.join(__dirname, 'public')));
+
+// this is part of the implementation for flash messages
+// res.locals is an object that contains properties that are
+// usable as variables in views
+// we set the properties notice & alert which will be used to display our
+// flash messages
+app.use(function (req, res, next) {
+  res.locals.notice || (res.locals.notice = '');
+  res.locals.alert || (res.locals.alert = '');
+  next();
+});
+// 👆 is custom middleware
+// this will process the response before our routers
 
 app.use('/', index);
 app.use('/users', users);

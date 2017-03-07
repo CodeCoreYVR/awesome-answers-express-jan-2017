@@ -26,6 +26,7 @@ router.post('/:questionId/answers', function (req, res, next) {
     .catch(err => next(err))
 })
 
+// Questions#create
 // PATH /questions METHOD: post
 router.post('/', function (req, res, next) {
   // check if we received body params from form post
@@ -40,7 +41,10 @@ router.post('/', function (req, res, next) {
   // that represent the attributes of the model instance to be created
   Question
     .create({title, content})
-    .then(question => res.redirect(`/questions/${question.id}`))
+    .then(question => {
+      req.flash('notice', `Questions #${question.id} created!`);
+      res.redirect(`/questions/${question.id}`);
+    })
     // next is a function passed to this callback that will
     // make the next middleware handle the request
     .catch(err => next(err))
@@ -102,6 +106,7 @@ router.patch('/:id', function (req, res, next) {
 // PATH /questions/:id METHOD: get
 router.get('/:id', function(req, res, next) {
   const {id} = req.params;
+  res.locals.notice = req.flash('notice') || '';
 
   // .findById is an asynchronous method that queries the database which
   // means that it returns a promise. To the get the resolved value of the promise,
