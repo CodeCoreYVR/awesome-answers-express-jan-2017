@@ -5,15 +5,45 @@ const router = express.Router();
 // const models = require('../models/index');
 // models.Question 👈 gets Question model object
 
-const {Question} = require('../models/index');
+// grab Question and Answer model objects from
+// models/index module
+const {Question, Answer} = require('../models/index');
 
+// PATH /questions/new METHOD: get
 router.get('/new', function (req, res, next) {
   res.render('questions/new')
 });
 
+// Answers#create
+// PATH /questions/:questionId/answers METHOD: post
+router.post('/:questionId/answers', function (req, res, next) {
+  const {questionId} = req.params;
+  const {content} = req.body;
+
+  Answer
+    .create({content, QuestionId: questionId})
+    .then(() => res.redirect(`/questions/${questionId}`))
+    .catch(err => next(err))
+})
+
+// PATH /questions METHOD: post
 router.post('/', function (req, res, next) {
   // check if we received body params from form post
   // res.send(req.body)
+
+  // We destructure form fields for our Question from the req.body
+  // title & content map to the name (i.e. html attribute name) of
+  // the respective fields in our new Question form
+  const {title, content} = req.body;
+
+  // All Sequelize models have a .create method that takes an object
+  // that represent the attributes of the model instance to be created
+  Question
+    .create({title, content})
+    .then(question => res.redirect(`/questions/${question.id}`))
+    // next is a function passed to this callback that will
+    // make the next middleware handle the request
+    .catch(err => next(err))
 });
 
 router.get('/', function(req, res, next) {
@@ -32,6 +62,8 @@ router.get('/', function(req, res, next) {
     )
 });
 
+// Questions#show
+// PATH /questions/:id METHOD: Get
 router.get('/:id', function(req, res, next) {
   const {id} = req.params;
 
