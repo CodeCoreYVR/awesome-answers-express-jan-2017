@@ -72,8 +72,14 @@ router.get('/:id', function(req, res, next) {
   // we use its .then method and pass it a callback
   Question
     .findById(id)
+    // promises can only resolve one value
+    // to resolve "multiple values" we wrap them in an array
+    // If any of the values in our array is a promise, we need to resolve them
+    // use Promise.all to do so. It will resolve an array with the resolved values
+    // of elements of the array.
+    .then(question => Promise.all([question, question.getAnswers({order: [['updatedAt', 'DESC']]})]))
     .then(
-      question => res.render('questions/show', {question})
+      ([question, answers]) => res.render('questions/show', {question, answers})
     )
     .catch(
       // The next function is a parameter passed to the callback function this is

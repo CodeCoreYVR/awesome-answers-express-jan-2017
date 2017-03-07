@@ -16,4 +16,13 @@
     <input type="submit" id="submit" name="submit" value="Submit"/>
   </form>
 
+  <ul>
+  <% answers.forEach(answer => { %>
+    <li>
+      <p><%= answer.content %></p>
+      <p><strong>Last Edited:</strong> <%= answer.updatedAt %></p>
+    </li>
+  <% }) %>
+  </ul>
+
 <%- include('../partials/footer.ejs') %>
