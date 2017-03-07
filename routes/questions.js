@@ -85,6 +85,19 @@ router.get('/:id/edit', function (req, res, next) {
     .catch(err => next(err))
 })
 
+// Question#update
+// PATH /questions/:id Method: patch
+router.patch('/:id', function (req, res, next) {
+  const {id} = req.params;
+  const {title, content} = req.body;
+
+  Question
+    .findById(id)
+    .then(question => question.update({title, content}))
+    .then(() => res.redirect(`/questions/${id}`))
+    .catch(err => next(err))
+})
+
 // Questions#show
 // PATH /questions/:id METHOD: get
 router.get('/:id', function(req, res, next) {
