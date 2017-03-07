@@ -12,7 +12,8 @@ var http = require('http');
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+// Change 3333 to any value to modify the default port of your application
+var port = normalizePort(process.env.PORT || '3333');
 app.set('port', port);
 
 /**
