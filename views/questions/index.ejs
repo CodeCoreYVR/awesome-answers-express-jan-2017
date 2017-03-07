@@ -1,0 +1,18 @@
+<%- include('../partials/header.ejs') %>
+  <h1>Questions</h1>
+
+  <ul>
+  <%# in the .forEach callback, we destructured the `question` object
+  we expect it to have an id, title and createdAt property. With destructuring,
+  these will be assigned to variables with respective names %>
+  <% questions.forEach(({id, title, createdAt}) => { %>
+    <li>
+      <h3>
+        <a href="/questions/<%= id %>"><%= title %></a>
+      </h3>
+      <p><%= createdAt %></p>
+    </li>
+  <% }) %>
+  </ul>
+
+<%- include('../partials/footer.ejs') %>
