@@ -12,7 +12,8 @@ const users = require('./routes/users');
 // into a variable with the require function
 // to load one of your own file modules, give require
 // the relative path to the file 👇
-const questions = require('./routes/questions')
+const questions = require('./routes/questions');
+const answers = require('./routes/answers');
 
 const app = express();
 
@@ -62,7 +63,8 @@ app.use('/users', users);
 // app.use
 // - first argument: beginning url for routes
 // - second argument: middleware (or, router) object
-app.use('/questions', questions)
+app.use('/questions', questions);
+app.use('/answers', answers);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

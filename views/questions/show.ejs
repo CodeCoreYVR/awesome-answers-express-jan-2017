@@ -23,6 +23,10 @@
     <li>
       <p><%= answer.content %></p>
       <p><strong>Last Edited:</strong> <%= answer.updatedAt %></p>
+      <form action="/answers/<%= answer.id %>" method="post">
+        <input type="hidden" name="_method" value="delete"/>
+        <input type="submit" value="Delete" />
+      </form>
     </li>
   <% }) %>
   </ul>
